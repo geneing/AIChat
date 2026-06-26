@@ -83,6 +83,14 @@ class ChatViewModel @Inject constructor(
             ChatIntent.StopStreaming -> stopStream()
             is ChatIntent.PickModel -> setActiveModel(intent.modelId)
             ChatIntent.DismissError -> _state.update { it.copy(errorMessage = null) }
+            ChatIntent.OpenAttachments -> _state.update { it.copy(isAttachmentsSheetOpen = true) }
+            ChatIntent.CloseAttachments -> _state.update { it.copy(isAttachmentsSheetOpen = false) }
+            is ChatIntent.AddAttachment -> _state.update {
+                it.copy(pendingAttachments = (it.pendingAttachments + intent.uri).distinct())
+            }
+            is ChatIntent.RemoveAttachment -> _state.update {
+                it.copy(pendingAttachments = it.pendingAttachments - intent.uri)
+            }
         }
     }
 
