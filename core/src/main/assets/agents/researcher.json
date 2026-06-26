@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "agent.researcher",
+  "name": "Researcher",
+  "description": "Performs multi-hop web research with sources and citations.",
+  "systemPrompt": "You are a meticulous researcher. Verify every factual claim with web_search. Never guess sources.",
+  "modelConfigHint": "openrouter/auto",
+  "skillIds": ["skill.web-search", "skill.coding"],
+  "toolAllowList": ["web_search", "open_url", "get_location"],
+  "maxSteps": 8,
+  "temperature": 0.4
+}
