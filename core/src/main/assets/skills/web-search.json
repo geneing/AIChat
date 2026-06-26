@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "skill.web-search",
+  "name": "Web Search",
+  "description": "Fetches up-to-date information from the web before answering time-sensitive questions.",
+  "systemPrompt": "When the user asks about recent events, prices, news, or anything that may have changed since your training cutoff, call the web_search tool first and cite your sources inline.",
+  "body": "## Workflow\n1. Identify the user's information need.\n2. Call web_search with a focused query.\n3. Read the top 3 results.\n4. Synthesize an answer and cite sources as numbered references.",
+  "tags": ["research", "live-data"],
+  "toolAllowList": ["web_search", "open_url"],
+  "version": 1
+}
