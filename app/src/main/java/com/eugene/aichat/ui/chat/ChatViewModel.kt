@@ -9,6 +9,7 @@ import com.eugene.aichat.core.domain.model.ModelConfig
 import com.eugene.aichat.core.domain.usecase.CancelStreamUseCase
 import com.eugene.aichat.core.domain.usecase.SendMessageUseCase
 import com.eugene.aichat.core.domain.usecase.StreamResponseUseCase
+import com.eugene.aichat.core.voice.VoiceSession
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class ChatViewModel @Inject constructor(
     private val sendMessage: SendMessageUseCase,
     private val streamResponse: StreamResponseUseCase,
     private val cancelStream: CancelStreamUseCase,
+    private val voiceSession: VoiceSession,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -91,6 +93,14 @@ class ChatViewModel @Inject constructor(
             is ChatIntent.RemoveAttachment -> _state.update {
                 it.copy(pendingAttachments = it.pendingAttachments - intent.uri)
             }
+            ChatIntent.OpenVoiceMode -> _state.update {
+                it.copy(voiceOverlay = com.eugene.aichat.core.voice.VoiceUiState())
+            }
+            ChatIntent.CloseVoiceMode -> {
+                voiceSession.shutdown()
+                _state.update { it.copy(voiceOverlay = null) }
+            }
+            ChatIntent.StartVoiceListening -> voiceSession.startListening()
         }
     }
 

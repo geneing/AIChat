@@ -35,6 +35,7 @@ import com.eugene.aichat.R
 import com.eugene.aichat.nav.NavArgs
 import com.eugene.aichat.nav.SettingsRoute
 import com.eugene.aichat.ui.chat.components.MessageList
+import com.eugene.aichat.ui.chat.components.VoiceModeOverlay
 import com.eugene.aichat.ui.components.AppTopBar
 import com.eugene.aichat.ui.components.AttachmentsSheet
 import com.eugene.aichat.ui.components.EmptyStateHero
@@ -79,6 +80,13 @@ fun ChatScreen(
             photoLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
+    val micPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            viewModel.onIntent(ChatIntent.OpenVoiceMode)
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -96,7 +104,16 @@ fun ChatScreen(
                     else "AIChat",
                     onMenu = { /* sidebar hookup in step 12 */ },
                     onSettings = { navController.navigate(SettingsRoute) },
-                    onVoiceToggle = { /* voice hookup in step 8 */ },
+                    onVoiceToggle = {
+                        val granted = ContextCompat.checkSelfPermission(
+                            context, Manifest.permission.RECORD_AUDIO
+                        ) == PackageManager.PERMISSION_GRANTED
+                        if (granted) {
+                            viewModel.onIntent(ChatIntent.OpenVoiceMode)
+                        } else {
+                            micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                        }
+                    },
                     centerSlot = {
                         ModelSelector(
                             models = state.availableModels,
@@ -137,6 +154,14 @@ fun ChatScreen(
                         .fillMaxWidth()
                         .imePadding()
                         .padding(horizontal = Dimens.ScreenPadding, vertical = 8.dp)
+                )
+            }
+
+            state.voiceOverlay?.let { overlay ->
+                VoiceModeOverlay(
+                    state = overlay,
+                    onClose = { viewModel.onIntent(ChatIntent.CloseVoiceMode) },
+                    onStartListening = { viewModel.onIntent(ChatIntent.StartVoiceListening) }
                 )
             }
 
