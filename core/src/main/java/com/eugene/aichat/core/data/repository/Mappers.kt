@@ -100,14 +100,14 @@ internal fun SourceRefEntity.toDomain(): SourceRef = SourceRef(
     snippet = snippet
 )
 
-internal fun ModelConfigEntity.toDomain(): ModelConfig = ModelConfig(
+internal fun ModelConfigEntity.toDomain(apiKey: String? = null): ModelConfig = ModelConfig(
     id = id,
     displayName = displayName,
     providerType = runCatching { ProviderType.valueOf(providerType.uppercase()) }
         .getOrDefault(ProviderType.OPENAI),
     baseUrl = baseUrl,
     model = model,
-    apiKey = apiKeyEncrypted,
+    apiKey = apiKey.orEmpty(),
     temperature = temperature,
     topP = topP,
     maxTokens = maxTokens,
@@ -124,7 +124,7 @@ internal fun ModelConfig.toEntity(createdAt: Long, updatedAt: Long): ModelConfig
         providerType = providerType.name,
         baseUrl = baseUrl,
         model = model,
-        apiKeyEncrypted = apiKey,
+        apiKeyEncrypted = OPAQUE_TOKEN,
         temperature = temperature,
         topP = topP,
         maxTokens = maxTokens,
@@ -135,6 +135,8 @@ internal fun ModelConfig.toEntity(createdAt: Long, updatedAt: Long): ModelConfig
         createdAt = createdAt,
         updatedAt = updatedAt
     )
+
+internal const val OPAQUE_TOKEN = "enc:api-key"
 
 internal fun SkillEntity.toDomain(): Skill = Skill(
     id = id,

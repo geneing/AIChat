@@ -1,5 +1,6 @@
 package com.eugene.aichat.ui.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,7 +33,10 @@ fun SettingsScreen(navController: NavHostController) {
                 title = { Text(stringResource(R.string.menu_settings)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.common_back))
+                        Icon(
+                            Icons.AutoMirrored.Outlined.ArrowBack,
+                            contentDescription = stringResource(R.string.common_back)
+                        )
                     }
                 }
             )
@@ -43,7 +47,7 @@ fun SettingsScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp),
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             AccountSection()
             ThemeSection()
@@ -52,7 +56,7 @@ fun SettingsScreen(navController: NavHostController) {
             SkillsSection(navController = navController)
             AgentsSection(navController = navController)
             Text(
-                text = "Scaffold — sections wire up in steps 3, 13, 17.",
+                text = "Settings — System prompt, Skills, Agents, Account sign-in land in upcoming steps.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
