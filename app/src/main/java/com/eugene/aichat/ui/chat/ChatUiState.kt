@@ -3,6 +3,7 @@ package com.eugene.aichat.ui.chat
 import android.net.Uri
 import com.eugene.aichat.core.domain.model.Message
 import com.eugene.aichat.core.domain.model.ModelConfig
+import com.eugene.aichat.core.voice.VoiceUiState
 
 data class ChatUiState(
     val chatId: String? = null,
@@ -13,7 +14,8 @@ data class ChatUiState(
     val availableModels: List<ModelConfig> = emptyList(),
     val errorMessage: String? = null,
     val pendingAttachments: List<Uri> = emptyList(),
-    val isAttachmentsSheetOpen: Boolean = false
+    val isAttachmentsSheetOpen: Boolean = false,
+    val voiceOverlay: VoiceUiState? = null
 )
 
 sealed interface ChatIntent {
@@ -26,4 +28,7 @@ sealed interface ChatIntent {
     data object CloseAttachments : ChatIntent
     data class AddAttachment(val uri: Uri) : ChatIntent
     data class RemoveAttachment(val uri: Uri) : ChatIntent
+    data object OpenVoiceMode : ChatIntent
+    data object CloseVoiceMode : ChatIntent
+    data object StartVoiceListening : ChatIntent
 }
