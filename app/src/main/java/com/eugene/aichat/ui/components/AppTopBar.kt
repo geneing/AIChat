@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.eugene.aichat.R
 import com.eugene.aichat.ui.theme.Dimens
@@ -30,7 +31,8 @@ fun AppTopBar(
     onMenu: () -> Unit,
     onSettings: () -> Unit,
     onVoiceToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    centerSlot: @Composable (() -> Unit)? = null
 ) {
     Row(
         modifier = modifier
@@ -53,11 +55,17 @@ fun AppTopBar(
                 .padding(horizontal = 4.dp),
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            if (centerSlot != null) {
+                centerSlot()
+            } else {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
         IconButton(onClick = onVoiceToggle) {
             Box(

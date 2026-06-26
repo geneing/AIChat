@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Mic
+import androidx.compose.material.icons.outlined.Stop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -33,6 +34,8 @@ fun InputBar(
     onSend: () -> Unit,
     onAttach: () -> Unit,
     onVoicePress: () -> Unit,
+    onStop: (() -> Unit)? = null,
+    isStreaming: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -76,26 +79,43 @@ fun InputBar(
             }
         )
 
-        if (value.isBlank()) {
-            IconButton(onClick = onVoicePress) {
-                Icon(
-                    imageVector = Icons.Outlined.Mic,
-                    contentDescription = stringResource(R.string.chat_voice_mode),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+        when {
+            isStreaming && onStop != null -> {
+                IconButton(
+                    onClick = onStop,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(MaterialTheme.colorScheme.errorContainer, CircleShape)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Stop,
+                        contentDescription = stringResource(R.string.chat_stop),
+                        tint = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
             }
-        } else {
-            IconButton(
-                onClick = onSend,
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(MaterialTheme.colorScheme.primary, CircleShape)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Outlined.Send,
-                    contentDescription = stringResource(R.string.cd_send_message),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
+            value.isBlank() -> {
+                IconButton(onClick = onVoicePress) {
+                    Icon(
+                        imageVector = Icons.Outlined.Mic,
+                        contentDescription = stringResource(R.string.chat_voice_mode),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            else -> {
+                IconButton(
+                    onClick = onSend,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(MaterialTheme.colorScheme.primary, CircleShape)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.Send,
+                        contentDescription = stringResource(R.string.cd_send_message),
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
         }
     }
