@@ -3,16 +3,19 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = "com.eugene.aichat.core"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {
@@ -26,8 +29,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -36,7 +39,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -56,8 +59,8 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
+    api(libs.hilt.android)
+    api(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
     implementation(libs.kotlinx.coroutines.android)
@@ -88,4 +91,8 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.robolectric)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

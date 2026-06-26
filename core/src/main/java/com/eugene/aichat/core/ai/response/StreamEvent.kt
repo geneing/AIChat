@@ -50,7 +50,7 @@ fun ChatStreamChunkDto.toParsedChunk(): ParsedChunk {
         role = delta.role,
         content = delta.content,
         reasoning = delta.reasoning_content,
-        toolCalls = delta.tool_calls.orEmpty(),
+        toolCalls = delta.toolCalls.orEmpty(),
         finishReason = choice?.finishReason
     )
 }

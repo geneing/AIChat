@@ -1,6 +1,7 @@
 package com.eugene.aichat.core.ui.theme
 
 import com.eugene.aichat.core.data.prefs.UserPreferences
+import com.eugene.aichat.core.di.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class ThemeControllerImpl @Inject constructor(
     private val preferences: UserPreferences,
-    private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope
 ) : ThemeController {
 
     override val mode: StateFlow<ThemeMode> = preferences.themeMode

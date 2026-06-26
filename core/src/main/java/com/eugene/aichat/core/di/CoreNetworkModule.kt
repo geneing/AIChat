@@ -7,8 +7,8 @@ import com.eugene.aichat.core.ai.provider.OpenCodeProvider
 import com.eugene.aichat.core.ai.provider.OpenRouterProvider
 import com.eugene.aichat.core.ai.provider.ProviderAdapter
 import com.eugene.aichat.core.ai.provider.ProviderRegistry
-import com.eugene.aichat.core.ai.provider.ProviderType
 import com.eugene.aichat.core.ai.response.SseParser
+import com.eugene.aichat.core.domain.model.ProviderType
 import com.eugene.aichat.core.network.api.OpenAIApi
 import dagger.Binds
 import dagger.Module

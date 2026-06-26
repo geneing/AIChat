@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.eugene.aichat"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.eugene.aichat"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
 
@@ -41,8 +41,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -58,7 +58,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -105,4 +105,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

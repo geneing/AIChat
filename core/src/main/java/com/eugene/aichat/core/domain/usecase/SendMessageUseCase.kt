@@ -61,7 +61,7 @@ class SendMessageUseCase @Inject constructor(
     private suspend fun resolveChat(requestedChatId: String?): Chat {
         if (requestedChatId.isNullOrBlank() || requestedChatId == NEW_CHAT_SENTINEL) {
             val model = modelConfigRepository.observeDefault().first()
-                ?: modelConfigRepository.observeAll().first()
+                ?: modelConfigRepository.observeAll().first().firstOrNull()
                 ?: error("No model configured. Add one in Settings.")
             val id = UUID.randomUUID().toString()
             val now = System.currentTimeMillis()
