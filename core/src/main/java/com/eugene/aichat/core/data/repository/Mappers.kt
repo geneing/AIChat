@@ -71,7 +71,7 @@ internal fun AttachmentEntity.toDomain(): Attachment = Attachment(
     id = id,
     messageId = messageId,
     kind = runCatching { MessageContentKind.valueOf(kind.uppercase()) }
-        .getOrDefault(MessageContentKind.FILE),
+        .getOrDefault(MessageContentKind.TEXT),
     mimeType = mimeType,
     localUri = localUri,
     remoteUrl = remoteUrl,

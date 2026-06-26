@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.mutablePreferencesOf
 import com.eugene.aichat.core.domain.model.Skill
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -67,7 +68,7 @@ class SkillRepositoryImplTest {
     fun `ensureSeeded inserts new skills and is idempotent`() = runTest(UnconfinedTestDispatcher()) {
         val fakeDao = FakeSkillDao()
         val seedLoader = mockk<com.eugene.aichat.core.data.seed.AssetSeedLoader> {
-            every { loadSkills() } returns emptyList()
+            coEvery { loadSkills() } returns emptyList()
         }
         val repo = SkillRepositoryImpl(fakeDao, seedLoader, InMemoryPreferencesDataStore())
         repo.ensureSeeded()
@@ -76,7 +77,7 @@ class SkillRepositoryImplTest {
     }
 
     private fun emptySeedLoader() = mockk<com.eugene.aichat.core.data.seed.AssetSeedLoader>(relaxed = true) {
-        every { loadSkills() } returns emptyList()
+        coEvery { loadSkills() } returns emptyList()
     }
 }
 

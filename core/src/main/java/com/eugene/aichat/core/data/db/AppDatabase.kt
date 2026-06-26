@@ -2,7 +2,6 @@ package com.eugene.aichat.core.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.eugene.aichat.core.data.db.dao.AgentDao
 import com.eugene.aichat.core.data.db.dao.AttachmentDao
 import com.eugene.aichat.core.data.db.dao.ChatDao
@@ -33,7 +32,6 @@ import com.eugene.aichat.core.data.db.entity.SourceRefEntity
     version = 1,
     exportSchema = true
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun chatDao(): ChatDao
     abstract fun messageDao(): MessageDao
