@@ -1,5 +1,6 @@
 package com.eugene.aichat.ui.chat
 
+import android.net.Uri
 import com.eugene.aichat.core.domain.model.Message
 import com.eugene.aichat.core.domain.model.ModelConfig
 
@@ -10,7 +11,9 @@ data class ChatUiState(
     val isStreaming: Boolean = false,
     val activeModel: ModelConfig? = null,
     val availableModels: List<ModelConfig> = emptyList(),
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val pendingAttachments: List<Uri> = emptyList(),
+    val isAttachmentsSheetOpen: Boolean = false
 )
 
 sealed interface ChatIntent {
@@ -19,4 +22,8 @@ sealed interface ChatIntent {
     data object StopStreaming : ChatIntent
     data class PickModel(val modelId: String) : ChatIntent
     data object DismissError : ChatIntent
+    data object OpenAttachments : ChatIntent
+    data object CloseAttachments : ChatIntent
+    data class AddAttachment(val uri: Uri) : ChatIntent
+    data class RemoveAttachment(val uri: Uri) : ChatIntent
 }

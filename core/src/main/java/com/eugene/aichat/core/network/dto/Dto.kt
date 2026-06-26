@@ -27,6 +27,26 @@ data class ChatMessageDto(
 )
 
 @Serializable
+data class ContentPartDto(
+    val type: String,
+    val text: String? = null,
+    @SerialName("image_url") val imageUrl: ImageUrlDto? = null,
+    @SerialName("input_audio") val inputAudio: InputAudioDto? = null
+)
+
+@Serializable
+data class ImageUrlDto(
+    val url: String,
+    val detail: String? = "auto"
+)
+
+@Serializable
+data class InputAudioDto(
+    @SerialName("data") val base64Data: String,
+    val format: String
+)
+
+@Serializable
 data class ToolDefinitionDto(
     val type: String = "function",
     val function: ToolFunctionDto
