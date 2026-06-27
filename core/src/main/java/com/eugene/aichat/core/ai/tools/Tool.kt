@@ -1,5 +1,6 @@
 package com.eugene.aichat.core.ai.tools
 
+import com.eugene.aichat.core.ai.location.LocationProvider
 import com.eugene.aichat.core.network.dto.ToolDefinitionDto
 import com.eugene.aichat.core.network.dto.ToolFunctionDto
 import kotlinx.serialization.json.JsonElement

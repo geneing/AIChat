@@ -1,11 +1,10 @@
 package com.eugene.aichat.core.ai.tools
 
+import com.eugene.aichat.core.ai.location.LocationProvider
 import com.eugene.aichat.core.network.dto.ToolCallDto
 import com.eugene.aichat.core.network.dto.ToolDefinitionDto
-import com.eugene.aichat.core.network.dto.ToolFunctionDto
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.buildJsonObject
 import javax.inject.Inject
 import javax.inject.Singleton
 

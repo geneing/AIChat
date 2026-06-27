@@ -2,13 +2,13 @@ package com.eugene.aichat.core.di
 
 import com.eugene.aichat.core.ai.client.AiClient
 import com.eugene.aichat.core.ai.client.AiClientImpl
+import com.eugene.aichat.core.ai.location.LocationProvider
 import com.eugene.aichat.core.ai.provider.OpenAIProvider
 import com.eugene.aichat.core.ai.provider.OpenCodeProvider
 import com.eugene.aichat.core.ai.provider.OpenRouterProvider
 import com.eugene.aichat.core.ai.provider.ProviderAdapter
 import com.eugene.aichat.core.ai.provider.ProviderRegistry
 import com.eugene.aichat.core.ai.response.SseParser
-import com.eugene.aichat.core.ai.tools.LocationProvider
 import com.eugene.aichat.core.ai.tools.NoopWebSearchProvider
 import com.eugene.aichat.core.ai.tools.WebSearchProvider
 import com.eugene.aichat.core.domain.model.ProviderType
