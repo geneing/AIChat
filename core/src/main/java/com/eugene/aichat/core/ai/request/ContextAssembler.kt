@@ -46,6 +46,7 @@ class ContextAssembler @Inject constructor(
             addAll(history)
         }
 
+        val useTools = toolDefinitions.isNotEmpty() && model.supportsTools
         return ChatRequestDto(
             model = model.model,
             messages = messages,
@@ -53,8 +54,8 @@ class ContextAssembler @Inject constructor(
             topP = model.topP,
             maxTokens = model.maxTokens,
             stream = true,
-            tools = toolDefinitions.takeIf { it.isNotEmpty() && model.supportsTools },
-            toolChoice = if (toolDefinitions.isNotEmpty() && model.supportsTools) "auto" else null
+            tools = if (useTools) toolDefinitions else null,
+            toolChoice = if (useTools) "auto" else null
         )
     }
 
