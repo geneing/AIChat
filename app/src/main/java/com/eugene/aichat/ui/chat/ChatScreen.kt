@@ -99,10 +99,11 @@ fun ChatScreen(
                     .statusBarsPadding()
                     .navigationBarsPadding()
             ) {
+                val drawerController = com.eugene.aichat.LocalDrawerController.current
                 AppTopBar(
                     title = if (isNew && state.messages.isEmpty()) stringResource(R.string.app_name)
                     else "AIChat",
-                    onMenu = { /* sidebar hookup in step 12 */ },
+                    onMenu = { drawerController.open() },
                     onSettings = { navController.navigate(SettingsRoute) },
                     onVoiceToggle = {
                         val granted = ContextCompat.checkSelfPermission(
