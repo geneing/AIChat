@@ -22,10 +22,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            consumerProguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "consumer-rules.pro"
-            )
+            consumerProguardFiles("consumer-rules.pro")
         }
     }
 
