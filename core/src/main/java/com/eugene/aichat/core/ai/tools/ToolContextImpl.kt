@@ -1,6 +1,7 @@
 package com.eugene.aichat.core.ai.tools
 
 import android.content.Context
+import com.eugene.aichat.core.ai.location.LocationProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
