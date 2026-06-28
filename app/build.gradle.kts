@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.eugene.aichat"
+    namespace = "com.github.geneing.aichat"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.eugene.aichat"
+        applicationId = "com.github.geneing.aichat"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
