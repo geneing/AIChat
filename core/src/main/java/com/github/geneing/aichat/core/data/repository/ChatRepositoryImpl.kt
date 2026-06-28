@@ -3,10 +3,14 @@ package com.github.geneing.aichat.core.data.repository
 import com.github.geneing.aichat.core.data.db.dao.AttachmentDao
 import com.github.geneing.aichat.core.data.db.dao.ChatDao
 import com.github.geneing.aichat.core.data.db.dao.MessageDao
+import com.github.geneing.aichat.core.data.db.dao.SourceRefDao
+import com.github.geneing.aichat.core.data.db.entity.SourceRefEntity
 import com.github.geneing.aichat.core.domain.model.Chat
 import com.github.geneing.aichat.core.domain.model.Message
+import com.github.geneing.aichat.core.domain.model.SourceRef
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +18,8 @@ import javax.inject.Singleton
 class ChatRepositoryImpl @Inject constructor(
     private val chatDao: ChatDao,
     private val messageDao: MessageDao,
-    private val attachmentDao: AttachmentDao
+    private val attachmentDao: AttachmentDao,
+    private val sourceRefDao: SourceRefDao
 ) : ChatRepository {
 
     override fun observeChats(): Flow<List<Chat>> =
@@ -28,12 +33,20 @@ class ChatRepositoryImpl @Inject constructor(
         return messageFlow.map { messages ->
             val ids = messages.map { it.id }
             val attachments = if (ids.isEmpty()) emptyList() else attachmentDao.getForMessages(ids)
-            val byMessage = attachments.groupBy { it.messageId }
+            val attachmentsByMessage = attachments.groupBy { it.messageId }
+            val sources = if (ids.isEmpty()) emptyList() else sourceRefDao.getForMessages(ids)
+            val sourcesByMessage = sources.groupBy { it.messageId }
             messages.map { m ->
-                m.toDomain(attachments = byMessage[m.id].orEmpty().map { it.toDomain() })
+                m.toDomain(
+                    attachments = attachmentsByMessage[m.id].orEmpty().map { it.toDomain() },
+                    sources = sourcesByMessage[m.id].orEmpty().map { it.toDomain() }
+                )
             }
         }
     }
+
+    override fun observeSources(messageId: String): Flow<List<SourceRef>> =
+        sourceRefDao.observeForMessage(messageId).map { rows -> rows.map { it.toDomain() } }
 
     override suspend fun getChat(id: String): Chat? = chatDao.getChat(id)?.toDomain()
 
@@ -71,5 +84,19 @@ class ChatRepositoryImpl @Inject constructor(
 
     override suspend fun markMessageComplete(messageId: String, latencyMs: Long?) {
         messageDao.markComplete(messageId, latencyMs)
+    }
+
+    override suspend fun addSources(messageId: String, sources: List<SourceRef>) {
+        if (sources.isEmpty()) return
+        val rows = sources.map { ref ->
+            SourceRefEntity(
+                id = ref.id.ifBlank { UUID.randomUUID().toString() },
+                messageId = messageId,
+                title = ref.title,
+                url = ref.url,
+                snippet = ref.snippet
+            )
+        }
+        sourceRefDao.upsertAll(rows)
     }
 }

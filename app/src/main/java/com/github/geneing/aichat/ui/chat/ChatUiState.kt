@@ -12,6 +12,7 @@ data class ChatUiState(
     val isStreaming: Boolean = false,
     val activeModel: ModelConfig? = null,
     val availableModels: List<ModelConfig> = emptyList(),
+    val activeAgentId: String? = null,
     val errorMessage: String? = null,
     val pendingAttachments: List<Uri> = emptyList(),
     val isAttachmentsSheetOpen: Boolean = false,

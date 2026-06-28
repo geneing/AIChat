@@ -9,6 +9,7 @@ import com.github.geneing.aichat.core.data.db.dao.MessageDao
 import com.github.geneing.aichat.core.data.db.dao.ModelConfigDao
 import com.github.geneing.aichat.core.data.db.dao.PendingActionDao
 import com.github.geneing.aichat.core.data.db.dao.SkillDao
+import com.github.geneing.aichat.core.data.db.dao.SourceRefDao
 import com.github.geneing.aichat.core.data.db.entity.AgentEntity
 import com.github.geneing.aichat.core.data.db.entity.AttachmentEntity
 import com.github.geneing.aichat.core.data.db.entity.ChatEntity
@@ -40,4 +41,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun skillDao(): SkillDao
     abstract fun agentDao(): AgentDao
     abstract fun pendingActionDao(): PendingActionDao
+    abstract fun sourceRefDao(): SourceRefDao
 }

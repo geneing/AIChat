@@ -15,6 +15,7 @@ import com.github.geneing.aichat.core.data.db.dao.MessageDao
 import com.github.geneing.aichat.core.data.db.dao.ModelConfigDao
 import com.github.geneing.aichat.core.data.db.dao.PendingActionDao
 import com.github.geneing.aichat.core.data.db.dao.SkillDao
+import com.github.geneing.aichat.core.data.db.dao.SourceRefDao
 import com.github.geneing.aichat.core.data.repository.AgentRepository
 import com.github.geneing.aichat.core.data.repository.AgentRepositoryImpl
 import com.github.geneing.aichat.core.data.repository.ChatRepository
@@ -79,6 +80,7 @@ object CoreDataModuleProviders {
     @Provides fun provideSkillDao(db: AppDatabase): SkillDao = db.skillDao()
     @Provides fun provideAgentDao(db: AppDatabase): AgentDao = db.agentDao()
     @Provides fun providePendingActionDao(db: AppDatabase): PendingActionDao = db.pendingActionDao()
+    @Provides fun provideSourceRefDao(db: AppDatabase): SourceRefDao = db.sourceRefDao()
 }
 
 @Module

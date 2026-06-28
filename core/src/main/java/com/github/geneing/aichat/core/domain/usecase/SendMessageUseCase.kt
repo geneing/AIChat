@@ -23,9 +23,10 @@ class SendMessageUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         requestedChatId: String?,
-        text: String
+        text: String,
+        agentId: String? = null
     ): SendResult {
-        val chat = resolveChat(requestedChatId)
+        val chat = resolveChat(requestedChatId, agentId)
         val userMessage = Message(
             id = UUID.randomUUID().toString(),
             chatId = chat.id,
@@ -58,7 +59,7 @@ class SendMessageUseCase @Inject constructor(
         )
     }
 
-    private suspend fun resolveChat(requestedChatId: String?): Chat {
+    private suspend fun resolveChat(requestedChatId: String?, agentId: String?): Chat {
         if (requestedChatId.isNullOrBlank() || requestedChatId == NEW_CHAT_SENTINEL) {
             val model = modelConfigRepository.observeDefault().first()
                 ?: modelConfigRepository.observeAll().first().firstOrNull()
@@ -68,7 +69,7 @@ class SendMessageUseCase @Inject constructor(
             val chat = Chat(
                 id = id,
                 title = "New chat",
-                agentId = null,
+                agentId = agentId?.takeIf { it.isNotBlank() },
                 modelConfigId = model.id,
                 createdAt = now,
                 updatedAt = now
@@ -76,8 +77,14 @@ class SendMessageUseCase @Inject constructor(
             chatRepository.createChat(chat)
             return chat
         }
-        return chatRepository.getChat(requestedChatId)
+        val existing = chatRepository.getChat(requestedChatId)
             ?: error("Chat $requestedChatId not found")
+        if (existing.agentId == null && !agentId.isNullOrBlank()) {
+            val bound = existing.copy(agentId = agentId)
+            chatRepository.createChat(bound)
+            return bound
+        }
+        return existing
     }
 
     companion object {

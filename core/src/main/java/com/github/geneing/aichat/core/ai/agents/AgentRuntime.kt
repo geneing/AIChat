@@ -93,6 +93,8 @@ class AgentRuntime @Inject constructor(
                         collectedToolCalls.clear()
                         collectedToolCalls.addAll(ev.calls)
                     }
+                    is StreamEvent.ToolCallSummary,
+                    is StreamEvent.ToolResult -> Unit
                     StreamEvent.Completed -> Unit
                     is StreamEvent.Failed -> failed = ev.message
                 }

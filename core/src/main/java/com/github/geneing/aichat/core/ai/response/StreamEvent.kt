@@ -21,6 +21,8 @@ sealed interface StreamEvent {
     data class ThinkingDelta(val text: String) : StreamEvent
     data class ToolCallDelta(val call: ToolCallDeltaDto) : StreamEvent
     data class ToolCallsReady(val calls: List<com.github.geneing.aichat.core.network.dto.ToolCallDto>) : StreamEvent
+    data class ToolCallSummary(val toolName: String) : StreamEvent
+    data class ToolResult(val toolName: String, val content: String) : StreamEvent
     data object Completed : StreamEvent
     data class Failed(val message: String, val code: Int? = null) : StreamEvent
 }

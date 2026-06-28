@@ -29,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.github.geneing.aichat.R
 import com.github.geneing.aichat.nav.ChatRoute
 import com.github.geneing.aichat.nav.HomeRoute
+import com.github.geneing.aichat.nav.NavArgs
 import com.github.geneing.aichat.nav.SettingsRoute
 import java.text.DateFormat
 import java.util.Date
@@ -88,15 +89,34 @@ fun SidePanel(
                 modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp)
             )
             state.enabledAgents.forEach { agent ->
-                Text(
-                    text = agent.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                NavigationDrawerItem(
+                    label = {
+                        Column {
+                            Text(
+                                text = agent.name,
+                                style = MaterialTheme.typography.bodyMedium,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            if (agent.description.isNotBlank()) {
+                                Text(
+                                    text = agent.description,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                    },
+                    selected = false,
+                    onClick = {
+                        navController.navigate(
+                            ChatRoute(chatId = NavArgs.NEW_CHAT, agentId = agent.id)
+                        ) {
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
         }
