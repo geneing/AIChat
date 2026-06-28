@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.eugene.aichat.core"
+    namespace = "com.github.geneing.aichat.core"
     compileSdk = 36
 
     defaultConfig {
